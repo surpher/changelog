@@ -18,8 +18,8 @@ jobs:
       - name: "Prepare changelog file"
         run: |
           echo ${{ steps.merge_commits.outputs.changelog }}
-          echo "CHANGELOG:\n\n" > changelog.md
-          echo "${{ steps.merge_commits.outputs.changelog }}" >> changelog.md
+          echo "CHANGELOG:\n\n" > build/Artifacts/changelog.md
+          echo "${{ steps.merge_commits.outputs.changelog }}" >> build/Artifacts/changelog.md
           cat build/Artifacts/changelog.md
 
       - name: "Archive changelog"
