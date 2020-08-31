@@ -25,9 +25,9 @@ jobs:
 
       - name: "Prepare changelog file"
         run: |
-          echo CHANGELOG output:
+          echo "CHANGELOG:\n" > changelog-build-number-${{ steps.buildnumber.outputs.build_number }}
           echo ${{ steps.merge_commits.outputs.changelog }}
-          cat ${{ steps.merge_commits.outputs.changelog }} > changelog-build-number-${{ steps.buildnumber.outputs.build_number }}
+          cat ${{ steps.merge_commits.outputs.changelog }} >> changelog-build-number-${{ steps.buildnumber.outputs.build_number }}
 
       - name: "Archive changelog"
         uses: actions/upload-artifact@v2
