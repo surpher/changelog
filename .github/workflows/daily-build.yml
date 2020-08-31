@@ -31,14 +31,14 @@ jobs:
         
       - name: "⚠️ Show buildnumber tag"
         run: | 
-          echo "🚨 Build Number: " + ${{ steps.buildnumber.output.build_number }}
+          echo "🚨 Build Number: ${{ needs.build_number.outputs.build_number }}"
 
       - name: "🗒 Generate changelog"
         uses: heinrichreimer/action-github-changelog-generator@v2.1.1
         id: generate_changelog
         with:
           token: ${{ secrets.github_token }}            
-          sinceTag: "build-number-${{ steps.buildnumber.output.build_number }}"
+          sinceTag: "build-number-${{ needs.build_number.outputs.build_number }}"
           stripHeaders: "true"
           stripGeneratorNotice: "true"
 
