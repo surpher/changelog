@@ -28,19 +28,3 @@ jobs:
         with:
           name: changelog.md
           path: build/Artifacts
-  
-  build:
-    name: "Changelog content"
-    needs: [generate_changelog]
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: "Download Artifacts"
-        uses: actions/download-artifact@v2
-        with:
-          name: changelog.md
-          path: build/Artifacts
-      
-      - name: "What's in the file?"
-        run: |
-          cat build/Artifacts/changelog.md
