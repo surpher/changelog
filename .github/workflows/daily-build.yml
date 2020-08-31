@@ -32,6 +32,8 @@ jobs:
           sinceTag: ${{ steps.fetchlatestbuildnumber.outputs.latest-build }}
           # stripHeaders: "true"
           stripGeneratorNotice: "true"
+          issuesWoLabels: "true"
+          pullRequests: "true"
           output: "build/Artifacts/changelog.md"
 
       - name: "Echo changelog"
