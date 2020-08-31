@@ -19,7 +19,7 @@ jobs:
         run: |
           echo ${{ steps.merge_commits.outputs.changelog }}
           echo "CHANGELOG:\n" > changelog.md
-          cat ${{ steps.merge_commits.outputs.changelog }} >> changelog.md
+          cat "${{ steps.merge_commits.outputs.changelog }}" >> changelog.md
 
       - name: "Archive changelog"
         uses: actions/upload-artifact@v2
