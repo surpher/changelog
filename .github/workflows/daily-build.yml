@@ -17,12 +17,6 @@ jobs:
         run: |
           echo "::set-output name=changelog::$(git log $(git tag --list 'build-number-*' --sort=-v:refname | head -1).. --merges --pretty=format:"%b")"
 
-      - name: "#️⃣ Generate Build Number"
-        id: buildnumber
-        uses: einaregilsson/build-number@v2
-        with:
-          token: ${{ secrets.github_token }}
-
       - name: "Prepare changelog file"
         run: |
           echo "CHANGELOG:\n" > changelog-build-number-${{ steps.buildnumber.outputs.build_number }}
