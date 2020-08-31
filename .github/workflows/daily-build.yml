@@ -16,7 +16,7 @@ jobs:
           git log $(git tag --list 'build-number-*' --sort=-v:refname | head -1).. --merges --pretty=format:"%b" 2>&1 | tee build/Artifacts/changelog.txt
       - name: "Echo changelog"
         run: |
-          cat build/Artifacts/changelog.md
+          cat build/Artifacts/changelog.txt
   
   build:
     name: "Read from changelog file"
@@ -26,4 +26,4 @@ jobs:
     steps:
       - name: "What's in the file?!?!?"
         run: |
-          cat build/Artifacts/changelog.md 
+          cat build/Artifacts/changelog.txt 
