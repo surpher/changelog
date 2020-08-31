@@ -32,7 +32,7 @@ jobs:
           sinceTag: ${{ steps.fetchlatestbuildnumber.outputs.latest-build }}
           stripHeaders: "true"
           stripGeneratorNotice: "true"
-          output: "build/Artifacts"
+          output: "build/Artifacts/changelog.md"
 
   # build_number:
   #   runs-on: ubuntu-latest
