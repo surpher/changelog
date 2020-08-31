@@ -19,14 +19,14 @@ jobs:
           echo "::set-output name=latest-build::$(git tag --list 'build-number-*' --sort=v:refname | head -1)\n"
 
       - name: "🗒 Generate changelog"
-          uses: heinrichreimer/action-github-changelog-generator@v2.1.1
-          id: generate_changelog
-          with:
-            token: ${{ secrets.github_token }}            
-            sinceTag: ${{ steps.fetchlatestbuildnumber.outputs.latest-build }}
-            stripHeaders: "true"
-            stripGeneratorNotice: "true"
-            output: "build/Artifacts"
+        uses: heinrichreimer/action-github-changelog-generator@v2.1.1
+        id: generate_changelog
+        with:
+          token: ${{ secrets.github_token }}            
+          sinceTag: ${{ steps.fetchlatestbuildnumber.outputs.latest-build }}
+          stripHeaders: "true"
+          stripGeneratorNotice: "true"
+          output: "build/Artifacts"
 
   build_number:
     runs-on: ubuntu-latest
