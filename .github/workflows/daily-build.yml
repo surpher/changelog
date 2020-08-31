@@ -34,6 +34,10 @@ jobs:
           stripGeneratorNotice: "true"
           output: "build/Artifacts/changelog.md"
 
+      - name: "Echo changelog"
+        run: |
+          cat build/Artifacts/changelog.md
+
   # build_number:
   #   runs-on: ubuntu-latest
   #   outputs:
