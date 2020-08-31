@@ -6,6 +6,8 @@ jobs:
   generate_changelog:
     name: "🧪 Generate changelog"
     runs-on: ubuntu-latest
+    outputs:
+      build_number: ${{ steps.buildnumber.outputs.build_number }}
 
     steps:
       - uses: actions/checkout@v1
@@ -13,11 +15,24 @@ jobs:
       - name: "🔍 Fetch merge commit descriptions"
         id: merge_commits
         run: |
-          echo "::set-output name=changelog::$(git log $(git tag --list 'build-number-*' --sort=-v:refname | head -1).. --merges --pretty=format:"%b" 2>&1 | tee build/Artifacts/changelog.txt)"
+          echo "::set-output name=changelog::$(git log $(git tag --list 'build-number-*' --sort=-v:refname | head -1).. --merges --pretty=format:"%b)"
       
       - name: "Echo changelog"
         run: |
-          cat build/Artifacts/changelog.txt
+          ${{ steps.merge_commits.outputs.changelog }}
+
+      - name: "#️⃣ Generate Build Number"
+        id: buildnumber
+        uses: einaregilsson/build-number@v2
+        with:
+          token: ${{ secrets.github_token }}
+
+      - name: "Archive changelog"
+        uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: changelog-${{ steps.buildnumber.outputs.build_number }}
+          path: build/Artifacts
   
   build:
     name: "Changelog content"
@@ -25,6 +40,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: "What's changed?!?!?"
+      - name: "Download Artifacts"
+        uses: actions/download-artifact@v2
+        with:
+          name: changelog-${{ needs.generate_changelog.outputs.build_number }}
+          path: build/Artifacts
+      
+      - name: "What's in the file?"
         run: |
-          ${{ needs.generate_changelog.outputs.changelog }}          
+          cat build/Artifacts/changelog-${{ needs.generate_changelog.outputs.build_number }}
