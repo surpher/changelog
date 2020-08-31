@@ -26,6 +26,10 @@ jobs:
         with:
           token: ${{ secrets.github_token }}
 
+      - name: "Show buildnumber tag"
+        run: | 
+          echo "🚨 Build Number: " + ${{ steps.buildnumber.output.build_number }}
+
       - name: "🗒 Generate changelog"
         uses: heinrichreimer/action-github-changelog-generator@v2.1.1
         id: generate_changelog
