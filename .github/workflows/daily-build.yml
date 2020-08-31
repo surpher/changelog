@@ -6,9 +6,7 @@ jobs:
   generate_changelog:
     name: "🧪 Generate changelog"
     runs-on: ubuntu-latest
-    outputs:
-      build_number: ${{ steps.buildnumber.outputs.build_number }}
-
+    
     steps:
       - uses: actions/checkout@v1
 
@@ -19,15 +17,15 @@ jobs:
 
       - name: "Prepare changelog file"
         run: |
-          echo "CHANGELOG:\n" > changelog-build-number-${{ steps.buildnumber.outputs.build_number }}
           echo ${{ steps.merge_commits.outputs.changelog }}
-          cat ${{ steps.merge_commits.outputs.changelog }} >> changelog-build-number-${{ steps.buildnumber.outputs.build_number }}
+          echo "CHANGELOG:\n" > changelog.md
+          cat ${{ steps.merge_commits.outputs.changelog }} >> changelog.md
 
       - name: "Archive changelog"
         uses: actions/upload-artifact@v2
         if: always()
         with:
-          name: changelog-build-number-${{ steps.buildnumber.outputs.build_number }}
+          name: changelog.md
           path: build/Artifacts
   
   build:
@@ -39,9 +37,9 @@ jobs:
       - name: "Download Artifacts"
         uses: actions/download-artifact@v2
         with:
-          name: changelog-build-number-${{ needs.generate_changelog.outputs.build_number }}
+          name: changelog.md
           path: build/Artifacts
       
       - name: "What's in the file?"
         run: |
-          cat build/Artifacts/changelog-build-number-${{ needs.generate_changelog.outputs.build_number }}
+          cat build/Artifacts/changelog.md
