@@ -1,25 +1,36 @@
-name: Daily
+on:
+  push:
+    # Sequence of patterns matched against refs/tags
+    tags:
+      - 'build-number-*' # Push events to matching build-number-, i.e. build-number-229
 
-on: push
+name: Daily build changelog
 
 jobs:
-  build_number:
-    name: "🧪 Changelog for a build"
+  build:
+    name: "🧪 Create changelog"
     runs-on: ubuntu-latest
     outputs:
       build_number: ${{ steps.buildnumber.output.build_number }}
+    
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
       - name: "#️⃣ Generate Build Number"
         id: buildnumber
         uses: einaregilsson/build-number@v2
         with:
           token: ${{ secrets.github_token }}
+
       - name: "🗒 Generate changelog"
-        id: generate_changelog
         uses: heinrichreimer/action-github-changelog-generator@v2.1.1
+        id: generate_changelog
         with:
           token: ${{ secrets.github_token }}            
-          sinceTag: "build-number-${{ steps.buildnumber.output.build_number - 1 }}"
+          sinceTag: "build-number-${{ steps.buildnumber.output.build_number }}"
           stripHeaders: "true"
           stripGeneratorNotice: "true"
 
