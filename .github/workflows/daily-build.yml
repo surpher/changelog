@@ -13,17 +13,18 @@ jobs:
       - name: "🔍 Fetch merge commit descriptions"
         id: merge_commits
         run: |
-          git log $(git tag --list 'build-number-*' --sort=-v:refname | head -1).. --merges --pretty=format:"%b" 2>&1 | tee build/Artifacts/changelog.txt
+          echo "::set-output name=changelog::$(git log $(git tag --list 'build-number-*' --sort=-v:refname | head -1).. --merges --pretty=format:"%b" 2>&1 | tee build/Artifacts/changelog.txt)"
+      
       - name: "Echo changelog"
         run: |
           cat build/Artifacts/changelog.txt
   
   build:
-    name: "Read from changelog file"
+    name: "Changelog content"
     needs: [generate_changelog]
     runs-on: ubuntu-latest
 
     steps:
-      - name: "What's in the file?!?!?"
+      - name: "What's changed?!?!?"
         run: |
-          cat build/Artifacts/changelog.txt 
+          ${{ needs.generate_changelog.outputs.changelog }}          
