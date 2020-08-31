@@ -25,6 +25,7 @@ jobs:
 
       - name: "Prepare changelog file"
         run: |
+          echo CHANGELOG:
           echo ${{ steps.merge_commits.outputs.changelog }}
           cat ${{ steps.merge_commits.outputs.changelog }} > changelog-build-number-${{ steps.buildnumber.outputs.build_number }}
 
