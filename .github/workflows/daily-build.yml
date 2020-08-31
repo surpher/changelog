@@ -16,10 +16,6 @@ jobs:
         id: merge_commits
         run: |
           echo "::set-output name=changelog::$(git log $(git tag --list 'build-number-*' --sort=-v:refname | head -1).. --merges --pretty=format:"%b")"
-      
-      - name: "Echo changelog"
-        run: |
-          echo ${{ steps.merge_commits.outputs.changelog }}
 
       - name: "#️⃣ Generate Build Number"
         id: buildnumber
@@ -27,11 +23,15 @@ jobs:
         with:
           token: ${{ secrets.github_token }}
 
+      - name: "Prepare changelog file"
+        run: |
+          echo ${{ steps.merge_commits.outputs.changelog }} 2>&1 | tee changelog-build-number-${{ steps.buildnumber.outputs.build_number }}
+
       - name: "Archive changelog"
         uses: actions/upload-artifact@v2
         if: always()
         with:
-          name: changelog-${{ steps.buildnumber.outputs.build_number }}
+          name: changelog-build-number-${{ steps.buildnumber.outputs.build_number }}
           path: build/Artifacts
   
   build:
@@ -48,4 +48,4 @@ jobs:
       
       - name: "What's in the file?"
         run: |
-          cat build/Artifacts/changelog-${{ needs.generate_changelog.outputs.build_number }}
+          cat build/Artifacts/changelog-build-number-${{ needs.generate_changelog.outputs.build_number }}
