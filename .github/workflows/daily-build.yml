@@ -30,8 +30,8 @@ jobs:
         with:
           token: ${{ secrets.github_token }}            
           sinceTag: ${{ steps.fetchlatestbuildnumber.outputs.latest-build }}
-          stripHeaders: "true"
-          stripGeneratorNotice: "true"
+          # stripHeaders: "true"
+          # stripGeneratorNotice: "true"
           output: "build/Artifacts/changelog.md"
 
       - name: "Echo changelog"
