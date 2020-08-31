@@ -13,10 +13,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - uses: actions/checkout@v1
+      
       - name: "🔍 Find latest build-number tag"
         id: fetchlatestbuildnumber
         run: |
-          echo "::set-output name=latest-build::$(git tag --list 'build-number-*' --sort=v:refname | head -1)\n"
+          echo "::set-output name=latest-build::$(git tag --list 'build-number-*' --sort=v:refname | head -1)"
 
       - name: "🗒 Generate changelog"
         uses: heinrichreimer/action-github-changelog-generator@v2.1.1
