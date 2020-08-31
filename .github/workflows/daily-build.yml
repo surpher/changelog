@@ -1,8 +1,3 @@
-# on:
-  # push:
-    # Sequence of patterns matched against refs/tags
-    # tags:
-      # - 'build-number-*' # Push events to matching build-number-, i.e. build-number-229
 on: push
 
 name: Daily build changelog
@@ -15,37 +10,19 @@ jobs:
     steps:
       - uses: actions/checkout@v1
 
-      - name: "🔍 Find latest build-number tag"
-        id: fetchlatestbuildnumber
+      - name: "🔍 Fetch merge commit descriptions"
+        id: merge_commits
         run: |
-          echo "::set-output name=latest-build::$(git tag --list 'build-number-*' --sort=v:refname | head -1)"
-
-      - name: "Latest Build Number tag"
-        run: |
-          echo "BUILD TAG: ${{ steps.fetchlatestbuildnumber.outputs.latest-build }}"
-
-      - name: "🗒 Generate changelog"
-        uses: heinrichreimer/action-github-changelog-generator@v2.1.1
-        id: generate_changelog
-        with:
-          token: ${{ secrets.github_token }}            
-          sinceTag: ${{ steps.fetchlatestbuildnumber.outputs.latest-build }}
-          # stripHeaders: "true"
-          stripGeneratorNotice: "true"
-          output: "build/Artifacts/changelog.md"
-
+          git log $(git tag --list 'build-number-*' --sort=-v:refname | head -1).. --merges --pretty=format:"%b") 2>&1 | tee build/Artifacts/changelog.txt
       - name: "Echo changelog"
         run: |
           cat build/Artifacts/changelog.md
+  
+  build:
+    name: "Read from changelog file"
+    needs: [generate_changelog]
 
-  # build_number:
-  #   runs-on: ubuntu-latest
-  #   outputs:
-  #       build_number: ${{ steps.buildnumber.outputs.build_number }}
-    
-  #   steps:
-  #     - name: "#️⃣ Generate Build Number"
-  #       id: buildnumber
-  #       uses: einaregilsson/build-number@v2
-  #       with:
-  #           token: ${{ secrets.github_token }}
+    steps:
+      - name: "What's in the file?!?!?"
+        run: |
+          cat build/Artifacts/changelog.md 
