@@ -43,7 +43,7 @@ jobs:
       - name: "Download Artifacts"
         uses: actions/download-artifact@v2
         with:
-          name: changelog-${{ needs.generate_changelog.outputs.build_number }}
+          name: changelog-build-number-${{ needs.generate_changelog.outputs.build_number }}
           path: build/Artifacts
       
       - name: "What's in the file?"
