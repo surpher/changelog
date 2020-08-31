@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v1
+      # - uses: actions/checkout@v1
 
       - name: "🔍 Find latest build-number tag"
         id: fetchlatestbuildnumber
@@ -34,14 +34,14 @@ jobs:
           stripGeneratorNotice: "true"
           output: "build/Artifacts"
 
-  build_number:
-    runs-on: ubuntu-latest
-    outputs:
-        build_number: ${{ steps.buildnumber.outputs.build_number }}
+  # build_number:
+  #   runs-on: ubuntu-latest
+  #   outputs:
+  #       build_number: ${{ steps.buildnumber.outputs.build_number }}
     
-    steps:
-      - name: "#️⃣ Generate Build Number"
-        id: buildnumber
-        uses: einaregilsson/build-number@v2
-        with:
-            token: ${{ secrets.github_token }}
+  #   steps:
+  #     - name: "#️⃣ Generate Build Number"
+  #       id: buildnumber
+  #       uses: einaregilsson/build-number@v2
+  #       with:
+  #           token: ${{ secrets.github_token }}
