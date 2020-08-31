@@ -21,6 +21,7 @@ jobs:
   build:
     name: "Read from changelog file"
     needs: [generate_changelog]
+    runs-on: ubuntu-latest
 
     steps:
       - name: "What's in the file?!?!?"
