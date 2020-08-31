@@ -19,7 +19,7 @@ jobs:
       
       - name: "Echo changelog"
         run: |
-          ${{ steps.merge_commits.outputs.changelog }}
+          echo ${{ steps.merge_commits.outputs.changelog }}
 
       - name: "#️⃣ Generate Build Number"
         id: buildnumber
