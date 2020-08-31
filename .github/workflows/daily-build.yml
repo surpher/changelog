@@ -28,3 +28,18 @@ jobs:
         with:
           name: changelog.md
           path: build/Artifacts
+  
+  read_file:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: "Download changelog"
+        uses: actions/download-artifact@v2
+        with:
+          name: changelog.md
+          path: build/Artifacts
+      
+      - name: "Read the changes"
+        run: |
+          cat build/Artifacts/changelog.md
+        
