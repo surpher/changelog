@@ -33,11 +33,11 @@ jobs:
       - name: "Download changelog"
         uses: actions/download-artifact@v2
         with:
-          name: changelog.md
+          name: changelog.txt
           path: build/Artifacts
       
       - name: "Read the changes"
         id: read_changelog
         run: |
-          cat build/Artifacts/changelog.md
+          cat build/Artifacts/changelog.txt
         
