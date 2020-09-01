@@ -13,15 +13,14 @@ jobs:
       - name: "Prepare changelog file"
         run: |
           echo ${{ steps.merge_commits.outputs.changelog }}
-          echo "CHANGELOG:" > build/Artifacts/changelog.md
-          echo $(git log $(git tag --list 'build-number-*' --sort=-v:refname | head -1).. --merges --pretty=format:"%b") >> build/Artifacts/changelog.md
-          cat build/Artifacts/changelog.md
+          echo $(git log $(git tag --list 'build-number-*' --sort=-v:refname | head -1).. --merges --pretty=format:"%b%n") >> build/Artifacts/changelog.txt
+          cat build/Artifacts/changelog.txt
 
       - name: "Archive changelog"
         uses: actions/upload-artifact@v2
         if: always()
         with:
-          name: changelog.md
+          name: changelog.txt
           path: build/Artifacts
   
   read_file:
