@@ -12,8 +12,7 @@ jobs:
 
       - name: "Prepare changelog file"
         run: |
-          echo ${{ steps.merge_commits.outputs.changelog }}
-          echo $(git log $(git tag --list 'build-number-*' --sort=-v:refname | head -1).. --merges --pretty=format:"%b%n") >> build/Artifacts/changelog.txt
+          $(git log --merges --pretty=format:"%b%n" $(git tag --list 'build-number-*' --sort=v:refname | head -1)..HEAD ) >> build/Artifacts/changelog.txt
           cat build/Artifacts/changelog.txt
 
       - name: "Archive changelog"
