@@ -8,16 +8,15 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
 
       - name: "Prepare changelog file"
         run: |
-          $(git log --first-parent main --merges --pretty=format:"%b%n" $(git tag --list 'build-number-*' --sort=v:refname | head -1)..HEAD ) >> build/Artifacts/changelog.txt
+          git log --first-parent main --merges --pretty=format:%b $(git tag --list 'build-number-*' --sort=v:refname | head -1)..HEAD >> build/Artifacts/changelog.txt
           cat build/Artifacts/changelog.txt
 
       - name: "Archive changelog"
         uses: actions/upload-artifact@v2
-        if: always()
         with:
           name: changelog.txt
           path: build/Artifacts
@@ -28,7 +27,7 @@ jobs:
     needs: [generate_changelog]
 
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - name: "Download changelog"
         uses: actions/download-artifact@v2
         with:
