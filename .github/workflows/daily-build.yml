@@ -10,16 +10,11 @@ jobs:
     steps:
       - uses: actions/checkout@v1
 
-      - name: "🔍 Fetch merge commit descriptions"
-        id: merge_commits
-        run: |
-          echo "::set-output name=changelog::$(git log $(git tag --list 'build-number-*' --sort=-v:refname | head -1).. --merges --pretty=format:"%b")"
-
       - name: "Prepare changelog file"
         run: |
           echo ${{ steps.merge_commits.outputs.changelog }}
-          echo "CHANGELOG:\n\n" > build/Artifacts/changelog.md
-          echo "${{ steps.merge_commits.outputs.changelog }}" >> build/Artifacts/changelog.md
+          echo "CHANGELOG:" > build/Artifacts/changelog.md
+          echo $(git log $(git tag --list 'build-number-*' --sort=-v:refname | head -1).. --merges --pretty=format:"%b") >> build/Artifacts/changelog.md
           cat build/Artifacts/changelog.md
 
       - name: "Archive changelog"
