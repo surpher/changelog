@@ -12,7 +12,9 @@ jobs:
 
       - name: "Prepare changelog file"
         run: |
-          $(git log --first-parent master --merges --pretty=format:"%b" $(git tag --list 'build-number-*' --sort=v:refname | head -1)..HEAD) >> build/Artifacts/changelog.txt
+          git log --first-parent master --merges --pretty=format:%b $(git tag --list 'build-number-*' --sort=v:refname | head -1)..HEAD
+          git log --first-parent master --merges --pretty=format:%b $(git tag --list 'build-number-*' --sort=v:refname | head -1)..HEAD > build/Artifacts/changelog.txt
+          echo "Read from file:"
           cat build/Artifacts/changelog.txt
 
       - name: "Archive changelog"
