@@ -9,7 +9,7 @@ jobs:
     
     steps:
       - uses: actions/checkout@v2
-        depth: 2
+        fetch-depth: 2
 
       - name: "Prepare changelog file"
         run: |
