@@ -9,7 +9,7 @@ ARTIFACTS_PATH=${ARTIFACTS_PATH:-build/Artifacts}
 mkdir -p ${ARTIFACTS_PATH}
 
 git log \
-    --first-parent main \
+    --first-parent master \
     --merges \
     --pretty=format:%b \
     $(git tag --list 'build-number-*' --sort=-v:refname | head -1)..HEAD > ${ARTIFACTS_PATH}/${CHANGELOG_FILE}
