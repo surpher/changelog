@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          fetch-depth: 5
+          fetch-depth: 100
 
       - name: "Sanity check the command"
         run: |
