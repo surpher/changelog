@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+set -xeu
+set -o pipefail
+
+CHANGELOG_FILE=${CHANGELOG_FILE:-changelog.txt}
+ARTIFACTS_PATH=${ARTIFACTS_PATH:-build/Artifacts}
+
+mkdir -p ${ARTIFACTS_PATH}
+
+git log \
+    --first-parent main \
+    --merges \
+    --pretty=format:%b \
+    $(git tag --list 'build-number-*' --sort=-v:refname | head -1)..HEAD > ${ARTIFACTS_PATH}/${CHANGELOG_FILE}

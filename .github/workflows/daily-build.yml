@@ -13,11 +13,7 @@ jobs:
           fetch-depth: 5
 
       - name: "Prepare changelog file"
-        run: |
-          git log --first-parent --merges --pretty=format:%b $(git tag --list 'build-number-*' --sort=v:refname | head -1)..HEAD
-          git log --first-parent --merges --pretty=format:%b $(git tag --list 'build-number-*' --sort=v:refname | head -1)..HEAD >> build/Artifacts/changelog.txt
-          echo "Read from file:"
-          cat build/Artifacts/changelog.txt
+        run: "Support/Scripts/CI/Generate-Changelog"
 
       - name: "Archive changelog"
         uses: actions/upload-artifact@v2
