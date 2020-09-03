@@ -21,7 +21,7 @@ jobs:
 
       - name: "Read changelog file"
         run: |
-          echo build/Artifacts/changelog.txt
+          cat build/Artifacts/changelog.txt
 
       - name: "Archive changelog"
         uses: actions/upload-artifact@v2
