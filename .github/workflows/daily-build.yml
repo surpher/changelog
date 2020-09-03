@@ -10,11 +10,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          fetch-depth: 100
+          fetch-depth: 0
 
       - name: "Sanity check the command"
         run: |
-          $(git log --first-parent --merges --pretty=format:%b $(git tag --list 'build-number-*' --sort=-v:refname | head -1)..HEAD)
+          git log --first-parent --merges --pretty=format:%b $(git tag --list 'build-number-*' --sort=-v:refname | head -1)..HEAD
 
       - name: "Prepare changelog file"
         run: "Support/Scripts/CI/Generate-Changelog"

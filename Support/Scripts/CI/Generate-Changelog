@@ -6,6 +6,8 @@ set -o pipefail
 CHANGELOG_FILE=${CHANGELOG_FILE:-changelog.txt}
 ARTIFACTS_PATH=${ARTIFACTS_PATH:-build/Artifacts}
 
+echo ${ARTIFACTS_PATH}/${CHANGELOG_FILE}
 mkdir -p ${ARTIFACTS_PATH}
 
+echo $(git log --first-parent master --merges --pretty=format:%b $(git tag --list 'build-number-*' --sort=-v:refname | head -1)..HEAD)
 git log --first-parent master --merges --pretty=format:%b $(git tag --list 'build-number-*' --sort=-v:refname | head -1)..HEAD > ${ARTIFACTS_PATH}/${CHANGELOG_FILE}
