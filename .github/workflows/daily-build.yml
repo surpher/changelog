@@ -15,6 +15,10 @@ jobs:
       - name: "Prepare changelog file"
         run: "Support/Scripts/CI/Generate-Changelog"
 
+      - name: "Read changelog file"
+        run: |
+          echo build/Artifacts/changelog.txt
+
       - name: "Archive changelog"
         uses: actions/upload-artifact@v2
         with:
