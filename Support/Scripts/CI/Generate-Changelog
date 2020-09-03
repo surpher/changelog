@@ -4,7 +4,7 @@ set -xeu
 set -o pipefail
 
 CHANGELOG_FILE=${CHANGELOG_FILE:-changelog.txt}
-ARTIFACTS_PATH=${ARTIFACTS_PATH:-build/Artifacts}
+ARTIFACTS_PATH=${ARTIFACTS_PATH:-Support/Scripts/CI/build/Artifacts}
 
 mkdir -p ${ARTIFACTS_PATH}
 
